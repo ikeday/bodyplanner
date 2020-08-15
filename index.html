@@ -1,0 +1,29 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN" "http://www.w3.org/TR/html4/frameset.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ja" lang="ja">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<title>Body Planner</title>
+<link rev="made" href="mailto:ikeday819@gmail.com" />
+<link rel="stylesheet" type="text/css" href="./css/grid.css" />
+<script type="text/javascript" src="../js/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="./js/autoheight.js"></script>
+
+</head>
+<body>
+<div id="container">
+	<div id="cameraCell">
+		<iframe src="./nonCamera.html" id="cameraFrame" title="camera"></iframe>
+	</div>
+	<div id="menuCell">
+		<iframe src="./menu.html" name="contents" title="dataPane"
+			scrolling="auto" id= "dataFrame" class="dFrame"></iframe>
+	</div>
+	<div id="dataCell">
+		<iframe src="./chart.php?data_entry=1" name="contents" title="dataPane"
+			scrolling="auto" id= "dataFrame" class="dFrame"></iframe>
+	</div>
+</div>
+</body>
+
+</html>

@@ -1,0 +1,45 @@
+@charset "UTF-8";
+* {
+	margin: 0px auto;
+}
+
+
+html, body {
+    height: 100%;
+    width: 100%;
+    margin: 0;         /* Reset default margin on the body element */
+    font-family: sans-serif;
+}
+
+#container{
+	display: grid;
+	grid-template-rows: 300px 1200px;
+	grid-template-columns: 300px 600px;
+	column-gap: 2px;
+	row-gap: 2px;
+}
+
+#cameraCell{
+	grid-row: 1/2;
+	grid-column: 1/2;
+	height: 300px;
+	width: 300px;
+}
+
+#menuCell{
+	grid-row: 2 / 3 ;
+	grid-column: 1 / 2;
+	width: 300px;
+}
+
+#dataCell{
+	grid-row: 1 / span 3;
+	grid-column: 2 / 3;
+	height: 1200px;
+}
+
+iframe {
+    display: block;       /* iframes are inline by default */
+    width: 2000vw;
+    border: none;
+}
