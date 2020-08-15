@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>usage: localhost//bodyplanner/chart.php?data_entry=1</title>
+<title>usage: localhost//bodyplanner/chart.php?data_entry=0</title>
 </head>
 <body>
 <?php
