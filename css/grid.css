@@ -33,6 +33,7 @@ html, body {
 iframe {
     height: 100%;
     width: 100%;
+    scrolling: auto;
 }
 
 #menuFrame{
