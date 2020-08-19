@@ -49,7 +49,9 @@ $y_label = $data_entry_jp[$num_data_entry];
                 label: ['<?php  echo $y_label  ?>'],
  //                label: ['体重'],
                 data: [<?php echo $y_axe ?>],
-                borderWidth: 1
+                borderWidth: 1,
+                borderColor: "rgba(255,0,0,1)",
+                backgroundColor: "rgba(255,0,0,0.2)"
             }]
         },
         options: {
