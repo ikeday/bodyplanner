@@ -9,8 +9,8 @@ html, body {
 
 #container{
 	display: grid;
-	grid-template-rows: 300px 500px;
-	grid-template-columns: 300px 800px;
+	grid-template-rows: 300px 300px;
+	grid-template-columns: 300px 500px;
 	column-gap: 0px;
 	row-gap: 0px;
 }
@@ -31,8 +31,6 @@ html, body {
 }
 
 iframe {
-    height: 100%;
-    width: 100%;
     scrolling: auto;
 }
 

@@ -35,9 +35,11 @@ $y_axe = trim($y_axe, ",");
 $y_label = $data_entry_jp[$num_data_entry];
 
 ?>
-    <canvas id="myChart"></canvas>
 	<script
 		src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.bundle.min.js"></script>
+	<div style="width:75%;">
+    	<canvas id="myChart" height="500" width="800"></canvas>
+    </div>
 	<script>
 	var timeFormat = 'YYYY-MM-DD';
     var ctx = document.getElementById('myChart').getContext('2d');
