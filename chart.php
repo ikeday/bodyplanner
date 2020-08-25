@@ -37,8 +37,8 @@ $y_label = $data_entry_jp[$num_data_entry];
 ?>
 	<script
 		src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.bundle.min.js"></script>
-	<div style="width:75%;">
-    	<canvas id="myChart" height="500" width="800"></canvas>
+	<div>
+    	<canvas id="myChart"></canvas>
     </div>
 	<script>
 	var timeFormat = 'YYYY-MM-DD';

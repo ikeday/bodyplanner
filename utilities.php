@@ -17,6 +17,12 @@ function db_connect(){
     return $pdo;//※重要！！※ ここでリターンすることで他の項目でも使用している変数($pdo)を関数の外でも使用できるようにしている
 }
 
+//  console.log実装
+function console_log( $data ){
+    echo '<script>';
+    echo 'console.log('. json_encode( $data ) .')';
+    echo '</script>';
+}
 // 配列データ
 $entry_jp = array(
     "体重(kg)",
