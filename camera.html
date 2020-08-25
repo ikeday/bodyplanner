@@ -2,6 +2,9 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script src="./js/send2PHP.js"></script>
+<script src="./jsQR-master/dist/jsQR.js"></script>
 <title>[HTML5] QRCode Reader</title>
 <style>
 /* 全体のレイアウト調整 */
@@ -61,8 +64,7 @@ small {
 		</div>
 	</section>
 
-	<script src="./jsQR-master/dist/jsQR.js"></script>
-	<script>
+<script>
 const video  = $("#camera");     // === document.querySelector("#camera");
 const canvas = $("#picture");    // === document.querySelector("#picture");
 const ctx = canvas.getContext("2d");
