@@ -9,8 +9,8 @@ html, body {
 
 #container{
 	display: grid;
-	grid-template-rows: 300px 300px;
-	grid-template-columns: 300px 800px;
+	grid-template-rows: 450px 400px;
+	grid-template-columns: 350px 800px;
 	column-gap: 0px;
 	row-gap: 0px;
 }
@@ -31,7 +31,7 @@ html, body {
 }
 
 #menuFrame{
-	width: 300px;
+	width: 350px;
 }
 
 #dataFrame{

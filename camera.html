@@ -3,21 +3,22 @@
 <head>
 <meta charset="UTF-8">
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-<script src="./js/send2PHP.js"></script>
 <script src="./jsQR-master/dist/jsQR.js"></script>
 <title>[HTML5] QRCode Reader</title>
 <style>
 /* 全体のレイアウト調整 */
+
 #contents {
 	display: grid;
-	grid-template-rows: 300px 1fr;
+	grid-template-rows: 300px 100px;
 	grid-template-columns: 1fr;
 	column-gap: 2px;
 	row-gap: 2px;
-	width: 650px;
+	width: 300px;
+	height: 400px;
 }
 
-#camera, #picture, #result {
+#camera, #picture, #resultBtn {
 	border: 1px solid gray;
 	justify-content: center;
 	margin: 5px;
@@ -32,22 +33,28 @@
 	grid-row: 2/3;
 	grid-column: 1/2;
 }
+
 /* リーダー部分 */
+
 #picture {
 	border: 1px solid gray;
 	display: none;
 }
 
-#result {
-	border: 1px solid gray;
+#resultBtn {
 	width: 300px;
-	height: 200px;
-	padding: 10px;
+	height: 100px;
 }
 
-small {
+#dateBtn {
+	width: 250px;
+	height: 60px;
 	color: gray;
+	position: relative;
+	top: 20px;
+	left: 25px
 }
+
 </style>
 </head>
 <body>
@@ -59,16 +66,18 @@ small {
 		<canvas id="picture" width="300" height="300"></canvas>
 
 		<!-- reader結果 -->
-		<div id="result">
-			<small>※ここに読み取り結果が表示されます※</small>
+		<div id="resultBtn">
+			<button type="button" id="dateBtn" value="TestBtn" disabled>
+				<div id="btnText">QR Code Reading</div>
+			</button>
 		</div>
+
 	</section>
 
 <script>
 const video  = $("#camera");     // === document.querySelector("#camera");
 const canvas = $("#picture");    // === document.querySelector("#picture");
 const ctx = canvas.getContext("2d");
-
 window.onload = () => {
   /** Camera設定 */
   const constraints = {
@@ -113,14 +122,18 @@ function checkPicture(){
   // With a Camera
   //----------------------
   if( code ){
+	var arr = ["", ""];
     // resultを表示
-	setQRResult("#result", code.data);  // 文字列
+	sqlquery=getQRResult(code.data, arr);  // 文字列
 	drawLine(ctx, code.location);       // 見つかった箇所に線を引く
 
     // video と canvas を入れ替え
-    canvas.style.display = 'block';
-    video.style.display = 'none';
+    //canvas.style.display = 'block';
+    //video.style.display = 'none';
     video.pause();
+    //console.log("date: " + arr);
+    
+    createDateBtn(arr);
   }
   //----------------------
   // 存在しない場合
@@ -158,15 +171,30 @@ function drawLine(ctx, pos, options={color:"blue", size:5}){
 }
 
 /**
+ * QRコードの読み取り結果をボタンに表示する
+ *
+ * @param {array} data sql, date
+ * @return {void}
+*/
+function createDateBtn(data){
+	var btn = document.getElementById("dateBtn");
+	var btnText = document.getElementById("btnText");
+	
+	btn.disabled = false;
+	btnText.innerHTML = data[1] + "<br />Record to DB";
+	btn.onclick = sendDataToPHP(data[0]);
+}
+
+/**
  * QRコードの読み取り結果を表示する
  *
- * @param {String} id
- * @param {String} data
- * @return {void}
+ * @param {array} data
+ * @param {array} arr
+ * @return {String} sqlquery
  */
-function setQRResult(id, data){
+function getQRResult(data, arr){
 //	  $(id).innerHTML = escapeHTML(data);
-	  $(id).innerHTML = camera2sql(data);
+	  return(camera2sql(data, arr));
 }
 
 /**
@@ -203,9 +231,10 @@ function escapeHTML(str){
   * 読み込んだ文字列をsql queryに変換する
   *
   * @param {string} baseString
+  * @param {arr1} return array
   * @return {string}
 */
-function camera2sql(baseString){
+function camera2sql(baseString, arr1){
 	  var work;
 	  var work0;
 	  var arr;
@@ -214,7 +243,7 @@ function camera2sql(baseString){
 	  sql = 'insert into dailydata values ("';
 
 	  arr = baseString.split('&');
-	  console.log(arr);
+
 	  var i;
 	  //   dateを作る
           work0 = arr[31].split("=");   //      年
@@ -224,6 +253,7 @@ function camera2sql(baseString){
           work = work + work0[1] + '-';
           work0 = arr[33].split("=");   //      日
           work0[1] = ( '00' + work0[1] ).slice( -2 );
+          arr1[1] = work + work0[1];
           work = work + work0[1] + '","';
 
           sql = sql + work;
@@ -235,8 +265,34 @@ function camera2sql(baseString){
 	  }
 	  sql = sql.slice(0,-2);
 	  sql = sql + ")";
+		
+	  arr1[0] = sql;
+	  //console.log("arr in camera2sql: " + arr1);
 
 	  return(sql);
+}
+/**
+ * 
+ */
+ // send sql data to writeDB.php in order to update SQL DB
+ //	sql: SQL query (String)
+function sendDataToPHP(sql) {
+    // alertMsg("selected" + " val=" + val + " row no= " + index + " id= " + cid
+    // + "\n");
+    $.ajax({
+        type : "POST",
+        url : "./writeDB.php",
+        async : true,
+        dataType : "json",
+        data : {
+            sqlquery : sql,
+        }
+    }).done(function(jsonData) {
+        $('#results').html(jsonData.sql);
+    }).fail(function(jqXHR, status, errorThrown) {
+        $('#results').html('writeDB error: '+errorThrown);
+    });
+    return false;
 }
 
 
