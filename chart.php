@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.6/Chart.bundle.min.js"></script>
 <title>usage: localhost//bodyplanner/chart.php?data_entry=0</title>
 </head>
 <body>
@@ -35,14 +36,14 @@ $y_axe = trim($y_axe, ",");
 $y_label = $data_entry_jp[$num_data_entry];
 
 ?>
-	<script
-		src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.bundle.min.js"></script>
-	<div>
-    	<canvas id="myChart"></canvas>
-    </div>
-	<script>
+<div>
+	<canvas id="myChart"></canvas>
+</div>
+<script>
 	var timeFormat = 'YYYY-MM-DD';
     var ctx = document.getElementById('myChart').getContext('2d');
+    ctx.canvas.width = 1450;
+    ctx.canvas.height = 1000;
     var myChart = new Chart(ctx, {
         type: 'line',
         data: {
@@ -60,6 +61,7 @@ $y_label = $data_entry_jp[$num_data_entry];
 			title: {
 				text: 'Chart.js Time Scale'
 			},
+			responsive: false,
 			scales: {
 				xAxes: [{
 					type: 'time',

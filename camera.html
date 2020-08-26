@@ -52,7 +52,7 @@
 	color: gray;
 	position: relative;
 	top: 20px;
-	left: 25px
+	left: 30px
 }
 
 </style>
@@ -132,7 +132,7 @@ function checkPicture(){
     //video.style.display = 'none';
     video.pause();
     //console.log("date: " + arr);
-    
+
     createDateBtn(arr);
   }
   //----------------------
@@ -179,7 +179,7 @@ function drawLine(ctx, pos, options={color:"blue", size:5}){
 function createDateBtn(data){
 	var btn = document.getElementById("dateBtn");
 	var btnText = document.getElementById("btnText");
-	
+
 	btn.disabled = false;
 	btnText.innerHTML = data[1] + "<br />Record to DB";
 	btn.onclick = sendDataToPHP(data[0]);
@@ -265,14 +265,14 @@ function camera2sql(baseString, arr1){
 	  }
 	  sql = sql.slice(0,-2);
 	  sql = sql + ")";
-		
+
 	  arr1[0] = sql;
 	  //console.log("arr in camera2sql: " + arr1);
 
 	  return(sql);
 }
 /**
- * 
+ *
  */
  // send sql data to writeDB.php in order to update SQL DB
  //	sql: SQL query (String)
