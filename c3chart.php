@@ -70,7 +70,7 @@ let chart = c3.generate({
   data: {
     json: <?php echo $data_json ?>,
     keys:{
-        value: ['date', 'weight'],
+        value: ['date', <?php echo "'".$entry_sql[$num_data_entry]."'" ?>],
     }
   },
   labels: true, // それぞれの点に数値を表示
