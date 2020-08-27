@@ -27,22 +27,53 @@ array("date"=>"2020-08-20","weight"=>62.5,"BMI"=>23.6,"metabolism"=>1495,"stdmet
 array("date"=>"2020-08-21","weight"=>62.1,"BMI"=>23.2,"metabolism"=>1513,"stdmetabolism"=>1376),
     );
 
-console_log($r);
+//console_log($r);
+
+// 2. DB接続します
+$pdo = db_connect();
+
+$x_axe = '';
+$y_axe = '';
+
+// 2．データ登録SQL作成
+// prepare("")の中にはmysqlのSQLで入力したINSERT文を入れて修正すれば良いイメージ
+$stmt = $pdo->prepare("SELECT* FROM dailydata");
+$status = $stmt->execute();
+
+$dailydata = array();
+// loop through the returned data
+while ($r = $stmt->fetch(PDO::FETCH_ASSOC)) {
+    
+    //     $x_axe = $x_axe . '"' . $r['date'] . '",';
+    $x_axe = $x_axe . '"' . $r['date'] . '",';
+    $y_axe = $y_axe . '"' . $r[$entry_sql[$num_data_entry]] . '",';
+    $workArr = array('date' => $r['date'], 
+        $entry_sql[$num_data_entry] => $r[$entry_sql[$num_data_entry]]);
+    array_push($dailydata, $workArr);
+}
+
+$x_axe = trim($x_axe, ",");
+$y_axe = trim($y_axe, ",");
+$y_label = $data_entry_jp[$num_data_entry];
+
+$data_json = json_encode($dailydata);
+console_log($data_json);
 ?>
 
 <script src="https://d3js.org/d3.v5.min.js"></script><!-- D3.js を読み込む -->
 <script src="../c3/c3.min.js"></script><!-- C3.js を読み込む -->
 <script>
+//var c3data = JSON.stringify();
 let chart = c3.generate({
   bindto: '#my-chart',
   size: { width: 950, height: 750 }, // グラフ描画領域のサイズ
   data: {
-    columns: [
-      ['データ1', 30, 200, 100, 400, 150, 250],
-      ['データ2', 50, 20, 10, 40, 15, 25]
-    ],
-    labels: true // それぞれの点に数値を表示
+    json: <?php echo $data_json ?>,
+    keys:{
+        value: ['date', 'weight'],
+    }
   },
+  labels: true, // それぞれの点に数値を表示
   axis: {
     x: {
       label: {

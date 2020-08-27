@@ -2,8 +2,9 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <script src="./jsQR-master/dist/jsQR.js"></script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <title>[HTML5] QRCode Reader</title>
 <style>
 /* 全体のレイアウト調整 */
@@ -67,7 +68,7 @@
 
 		<!-- reader結果 -->
 		<div id="resultBtn">
-			<button type="button" id="dateBtn" value="TestBtn" disabled>
+			<button type="button" id="dateBtn" value="TestBtn" disabled="true">
 				<div id="btnText">QR Code Reading</div>
 			</button>
 		</div>
@@ -132,7 +133,7 @@ function checkPicture(){
     //video.style.display = 'none';
     video.pause();
     //console.log("date: " + arr);
-
+    
     createDateBtn(arr);
   }
   //----------------------
@@ -182,7 +183,11 @@ function createDateBtn(data){
 
 	btn.disabled = false;
 	btnText.innerHTML = data[1] + "<br />Record to DB";
-	btn.onclick = sendDataToPHP(data[0]);
+	//btn.onclick = sendDataToPHP(data[0]);
+	//btn.onclick = testOnclick(data[0]);
+	btn.addEventListener("click", function(){
+		sendDataToPHP(data[0])
+	},false);
 }
 
 /**
@@ -277,24 +282,26 @@ function camera2sql(baseString, arr1){
  // send sql data to writeDB.php in order to update SQL DB
  //	sql: SQL query (String)
 function sendDataToPHP(sql) {
-    // alertMsg("selected" + " val=" + val + " row no= " + index + " id= " + cid
-    // + "\n");
-    $.ajax({
+	$.ajax({
         type : "POST",
         url : "./writeDB.php",
         async : true,
         dataType : "json",
         data : {
-            sqlquery : sql,
+            sqlquery : sql
         }
     }).done(function(jsonData) {
-        $('#results').html(jsonData.sql);
+        console.log('writeDB successed');
     }).fail(function(jqXHR, status, errorThrown) {
-        $('#results').html('writeDB error: '+errorThrown);
+    	console.log('writeDB error: ' + errorThrown);
     });
     return false;
 }
 
+function testOnclick(data){
+	console.log('jQuery= '+ $)
+	console.log(data);
+}
 
 </script>
 </body>
