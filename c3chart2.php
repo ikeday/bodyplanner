@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
 <meta charset="utf-8">
-<title>C3.js で折れ線グラフを描画する</title>
+<title>C3.js で２本折れ線グラフを描画する</title>
 <link href="../c3/c3.css" rel="stylesheet"><!-- c3.css を読み込む -->
 </head>
 <body>
@@ -48,7 +48,9 @@ while ($r = $stmt->fetch(PDO::FETCH_ASSOC)) {
     $x_axe = $x_axe . '"' . $r['date'] . '",';
     $y_axe = $y_axe . '"' . $r[$entry_sql[$num_data_entry]] . '",';
     $workArr = array('date' => $r['date'], 
-        $entry_sql[$num_data_entry] => $r[$entry_sql[$num_data_entry]]);
+        $entry_sql[$num_data_entry] => $r[$entry_sql[$num_data_entry]],
+        $entry_sql[$num_data_entry + 1] => $r[$entry_sql[$num_data_entry + 1]],
+    );
     array_push($dailydata, $workArr);
 }
 
@@ -71,7 +73,10 @@ let chart = c3.generate({
     json: <?php echo $data_json ?>,
 	x: 'date',
     keys:{
-        value: ['date', <?php echo "'".$entry_sql[$num_data_entry]."'" ?>],
+        value: ['date',
+            <?php echo "'".$entry_sql[$num_data_entry]."'" ?>,
+            <?php echo "'".$entry_sql[$num_data_entry + 1]."'" ?>,
+        ],
     }
   },
   labels: true, // それぞれの点に数値を表示
