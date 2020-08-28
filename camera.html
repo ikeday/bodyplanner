@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <script src="./jsQR-master/dist/jsQR.js"></script>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <title>[HTML5] QRCode Reader</title>
 <style>
 /* 全体のレイアウト調整 */
@@ -182,7 +181,7 @@ function createDateBtn(data){
 	var btnText = document.getElementById("btnText");
 	
 	btn.addEventListener("click", function(){
-		testOnclick(data[0])
+		sendDataToPHP(data[0])
 	},false);
 
 	btn.disabled = false;
@@ -330,5 +329,7 @@ function testOnclick(data){
 }
 
 </script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
 </body>
 </html>
