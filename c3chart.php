@@ -7,7 +7,7 @@
 </head>
 <body>
 
-<div id="my-container" style="width: 1150px; height: 1050px; border: solid 1px red">
+<div id="my-container" style="width: 1148px; height: 1000px; border: solid 1px red">
   <div id="my-chart"></div>
 </div>
 <?php
@@ -66,7 +66,7 @@ console_log($data_json);
 //var c3data = JSON.stringify();
 let chart = c3.generate({
   bindto: '#my-chart',
-  size: { width: 1100, height: 1000 }, // グラフ描画領域のサイズ
+  size: { width: 1100, height: 995 }, // グラフ描画領域のサイズ
   data: {
     json: <?php echo $data_json ?>,
 	x: 'date',
