@@ -4,8 +4,8 @@
 function db_connect(){
     // MySQLへ引き渡すデータ
     $url = "localhost";
-    $user = "ikeday";
-    $pass = "Skapara1925+";
+    $user = "root";
+    $pass = "skapara1925";
     $db = "bodyplanner";
     $pdomsg = 'mysql:host=' . $url . ';dbname=' . $db . ';charset=utf8';
     try {
