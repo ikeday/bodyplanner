@@ -7,7 +7,7 @@
 </head>
 <body>
 
-<div id="my-container" style="width: 1148px; height: 1000px; border: solid 1px red">
+<div id="my-container" style="width: 1990px; height: 1000px; border: solid 1px red">
   <div id="my-chart"></div>
 </div>
 <?php
@@ -41,14 +41,16 @@ $stmt = $pdo->prepare("SELECT* FROM dailydata");
 $status = $stmt->execute();
 
 $dailydata = array();
+
 // loop through the returned data
 while ($r = $stmt->fetch(PDO::FETCH_ASSOC)) {
-    
     //     $x_axe = $x_axe . '"' . $r['date'] . '",';
     $x_axe = $x_axe . '"' . $r['date'] . '",';
     $y_axe = $y_axe . '"' . $r[$entry_sql[$num_data_entry]] . '",';
-    $workArr = array('date' => $r['date'], 
-        $entry_sql[$num_data_entry] => $r[$entry_sql[$num_data_entry]]);
+    $datum = number_format(($r[$entry_sql[$num_data_entry]]), 2);
+    $workArr = array('date' => $r['date'],
+        $entry_sql[$num_data_entry] => $datum
+    );
     array_push($dailydata, $workArr);
 }
 
@@ -66,7 +68,7 @@ console_log($data_json);
 //var c3data = JSON.stringify();
 let chart = c3.generate({
   bindto: '#my-chart',
-  size: { width: 1100, height: 995 }, // グラフ描画領域のサイズ
+  size: { width: 1990, height: 995 }, // グラフ描画領域のサイズ
   data: {
     json: <?php echo $data_json ?>,
 	x: 'date',
@@ -79,13 +81,13 @@ let chart = c3.generate({
     x: {
       type: 'timeseries',
       label: {
-        text: 'Date',
+        text: '日付',
         position: 'outer-middle'
       }
     },
     y: {
       label: {
-        text: <?php echo "'".$entry_sql[$num_data_entry]."'" ?>,
+        text: <?php echo "'".$entry_jp[$num_data_entry]."'" ?>,
         position: 'outer-middle'
       }
     }

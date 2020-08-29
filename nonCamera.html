@@ -3,8 +3,41 @@
 <head>
 <meta charset="UTF-8">
 <title>Camera Close</title>
+<style>
+html,body {
+        height: 420px;
+        width: 300px:
+}
+
+#btnFrame {
+        width: 294px;
+        height: 410px;
+}
+
+#cameraBtn {
+        width: 250px;
+        height: 350px;
+        color: gray;
+        position: relative;
+        top: 24px;
+        left: 30px
+}
+
+</style>
 </head>
 <body>
-Camera is closed now!
+<div id="btnFrame">
+	<button type="button" id="cameraBtn" value="TestBtn" onclick = "switchPage()">
+		<div id="btnText">Camera is now closed.<br/>Click here to open it.</div>
+	</button>
+</div>
+
 </body>
+<script>
+function switchPage(){
+	var btn = document.getElementById('cameraBtn');
+	btn.deianable = "true";
+	location.href = "./camera.html";
+}
+</script>
 </html>

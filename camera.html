@@ -67,8 +67,8 @@
 
 		<!-- reader結果 -->
 		<div id="resultBtn">
-			<button type="button" id="dateBtn" value="TestBtn" disabled="true">
-				<div id="btnText">QR Code Reading</div>
+			<button type="button" id="dateBtn" value="TestBtn" onClick="close_camera()">
+				<div id="btnText">Close Camera</div>
 			</button>
 		</div>
 
@@ -132,7 +132,7 @@ function checkPicture(){
     //video.style.display = 'none';
     video.pause();
     //console.log("date: " + arr);
-    
+
     createDateBtn(arr);
   }
   //----------------------
@@ -179,7 +179,7 @@ function drawLine(ctx, pos, options={color:"blue", size:5}){
 function createDateBtn(data){
 	var btn = document.getElementById("dateBtn");
 	var btnText = document.getElementById("btnText");
-	
+
 	btn.addEventListener("click", function(){
 		sendDataToPHP(data[0])
 	},false);
@@ -307,10 +307,14 @@ function sendDataToPHP(sql) {
     return false;
 }
 
+function close_camera(){
+    location.href = "./nonCamera.html";
+}
+
 function testOnclick(data){
 	console.log('jQuery= '+ $)
     $('#btnText').html('Entered sendDataToPHP' + data);
-	
+
 	$.ajax({
         type : "POST",
         url : "./writeDB.php",
@@ -325,7 +329,7 @@ function testOnclick(data){
     	console.log('writeDB error: ' + errorThrown);
     });
     return false;
-	
+
 }
 
 </script>
