@@ -83,7 +83,7 @@ window.onload = () => {
 	var btn = document.getElementById("dateBtn");
  	btn.addEventListener("click", function(){
 		close_camera()
-	},false);
+	}, {once: true});
 
   /** Camera設定 */
   const constraints = {
@@ -186,10 +186,10 @@ function createDateBtn(data){
 	var btn = document.getElementById("dateBtn");
 	var btnText = document.getElementById("btnText");
 
-	btn.removeEventListener("click", close_camera(), false);
+	//btn.removeEventListener("click", close_camera(), false);
 	btn.addEventListener("click", function(){
 		sendDataToPHP(data[0])
-	},false);
+	}, false);
 
 	btn.disabled = false;
 	btnText.innerHTML = data[1] + "<br />Record to DB";
