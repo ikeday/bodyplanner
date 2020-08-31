@@ -6,15 +6,16 @@ $user = "ikeday";
 $pass = "Skapara1925+";
 $db = "bodyplanner";
 $pdomsg = 'mysql:host=' . $url . ';dbname=' . $db . ';charset=utf8';
-// POSTの処理
-// $product='DD01-N95-2K';
-global $product;
+
+global $ret_msg;
+$ret_msg = "Write data successful.";
+
 $sql = $_POST["sqlquery"];
 
 try {
     $pdo = new PDO($pdomsg, $user, $pass);
 } catch (PDOException $e) {
-    var_dump($e->getMessage());
+    $ret_msg= "Connection error: ".$e->getMessage();
     die();
 }
 
@@ -22,7 +23,7 @@ try {
 try {
     $statement = $pdo->query($sql);
 } catch (PDOException $e) {
-    var_dump($e->getMessage());
+    $ret_msg= "Written error: ".$e->getMessage();
     die();
 }
 
@@ -31,6 +32,6 @@ try {
 // ③ヘッダーの設定
 header('Content-type:application/json; charset=utf8');
 // ④JSON形式にして返却
-echo json_encode($sql);
+echo json_encode($ret_msg);
 
 ?>

@@ -63,7 +63,7 @@ $y_axe = trim($y_axe, ",");
 $y_label = $data_entry_jp[$num_data_entry];
 
 $data_json = json_encode($dailydata);
-console_log($data_json);
+//console_log($data_json);
 ?>
 
 <script src="https://d3js.org/d3.v5.min.js"></script><!-- D3.js を読み込む -->

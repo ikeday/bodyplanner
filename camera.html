@@ -67,7 +67,7 @@
 
 		<!-- reader結果 -->
 		<div id="resultBtn">
-			<button type="button" id="dateBtn" value="TestBtn" onClick="close_camera()">
+			<button type="button" id="dateBtn" value="TestBtn">
 				<div id="btnText">Close Camera</div>
 			</button>
 		</div>
@@ -79,6 +79,12 @@ const video  = $("#camera");     // === document.querySelector("#camera");
 const canvas = $("#picture");    // === document.querySelector("#picture");
 const ctx = canvas.getContext("2d");
 window.onload = () => {
+	//	ボタンリスナーセット
+	var btn = document.getElementById("dateBtn");
+ 	btn.addEventListener("click", function(){
+		close_camera()
+	},false);
+
   /** Camera設定 */
   const constraints = {
     audio: false,
@@ -180,6 +186,7 @@ function createDateBtn(data){
 	var btn = document.getElementById("dateBtn");
 	var btnText = document.getElementById("btnText");
 
+	btn.removeEventListener("click", close_camera(), false);
 	btn.addEventListener("click", function(){
 		sendDataToPHP(data[0])
 	},false);
@@ -300,17 +307,33 @@ function sendDataToPHP(sql) {
             sqlquery : sql,
         }
     }).done(function(jsonData) {
-        console.log('writeDB successed');
+        console.log('writeDB successed' + jsonData);
+        btn_set("Data has been recorded<br/>Close the Camera.")
     }).fail(function(jqXHR, status, errorThrown) {
     	console.log('writeDB error: ' + errorThrown);
     });
     return false;
 }
 
-function close_camera(){
+var close_camera = function(){
     location.href = "./nonCamera.html";
 }
 
+function btn_set(msg){
+	var btn = document.getElementById("dateBtn");
+	var btnText = document.getElementById("btnText");
+
+	btn.disabled = false;
+	btnText.innerHTML = msg;
+	//btn.removeEventListener("click", close_camera, false);
+	btn.removeEventListener("click", sendDataToPHP, false);
+	btn.addEventListener("click", function(){
+		close_camera();
+	},false);
+	//btn.onclick = function(){
+	//	close_camera
+	//};
+}
 function testOnclick(data){
 	console.log('jQuery= '+ $)
     $('#btnText').html('Entered sendDataToPHP' + data);
@@ -324,7 +347,7 @@ function testOnclick(data){
             sqlquery : data,
         }
     }).done(function(jsonData) {
-        console.log('writeDB successed');
+        console.log(jsonData);
     }).fail(function(jqXHR, status, errorThrown) {
     	console.log('writeDB error: ' + errorThrown);
     });
