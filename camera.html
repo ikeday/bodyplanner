@@ -181,7 +181,7 @@ function syncCamera(video, is_front=true){
     })
     .catch( (err) => {
       console.log(`${err.name}: ${err.message}`);
-      alert("カメラとの接続時にエラーが発生しました");
+      //alert("カメラとの接続時にエラーが発生しました");
     });
 }
 
@@ -260,8 +260,8 @@ function createDateBtn(data){
 
 	//btn.removeEventListener("click", close_camera(), false);
 	btn.addEventListener("click", function(){
-		sendDataToPHP(data[0])
-	}, false);
+		sendDataToPHP(data)
+	}, {once: true});
 
 	btn.disabled = false;
 	btnText.innerHTML = data[1] + "<br />Record to DB";
@@ -362,8 +362,8 @@ function camera2sql(baseString, arr1){
  *
  */
  // send sql data to writeDB.php in order to update SQL DB
- //	sql: SQL query (String)
-function sendDataToPHP(sql) {
+ //	data: [0] sql, [1] date
+function sendDataToPHP(data) {
 // 	if (typeof jQuery == 'undefined') {
 // 	      console.log('jQueryがない！');
 // 	} else {
@@ -376,13 +376,16 @@ function sendDataToPHP(sql) {
         async : true,
         dataType : "json",
         data : {
-            sqlquery : sql,
+            sqlquery : data[0],
         }
     }).done(function(jsonData) {
         console.log('writeDB successed' + jsonData);
-        btn_set("Data has been recorded<br/>Close the Camera.")
+        alert(data[1] + ": Read data has been recorded.")
+        btn_set("Close the Camera.")
     }).fail(function(jqXHR, status, errorThrown) {
     	console.log('writeDB error: ' + errorThrown);
+        alert('ajax error: ' + errorThrown)
+    	
     });
     return false;
 }
