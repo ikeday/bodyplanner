@@ -28,14 +28,8 @@
 	grid-column: 1/2;
 }
 
-#picture {
-	grid-row: 2/3;
-	grid-column: 1/2;
-}
-
 /* リーダー部分 */
 #picture {
-	border: 1px solid gray;
 	display: none;
 }
 
@@ -206,8 +200,8 @@ function checkPicture(){
 	drawLine(ctx, code.location);       // 見つかった箇所に線を引く
 
     // video と canvas を入れ替え
-    //canvas.style.display = 'block';
-    //video.style.display = 'none';
+    canvas.style.display = 'block';
+    video.style.display = 'none';
     video.pause();
     //console.log("date: " + arr);
 
