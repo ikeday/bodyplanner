@@ -6,8 +6,8 @@
 <link href="../c3/c3.css" rel="stylesheet"><!-- c3.css を読み込む -->
 </head>
 <body>
-
-<div id="my-container" style="width: 1990px; height: 1000px; border: solid 1px red">
+<h1  style="width: 1990px;"><center><div  id="chart_header"></div></center></h1><br />
+<div id="my-container" style="width: 1990px; height: 900px; border: solid 1px red">
   <div id="my-chart"></div>
 </div>
 <?php
@@ -69,10 +69,12 @@ $data_json = json_encode($dailydata);
 <script src="https://d3js.org/d3.v5.min.js"></script><!-- D3.js を読み込む -->
 <script src="../c3/c3.min.js"></script><!-- C3.js を読み込む -->
 <script>
+var h1_title = document.getElementById('chart_header');
+h1_title.innerHTML = <?php echo "'". $data_entry_jp[$num_data_entry]."'"  ?>;
 //var c3data = JSON.stringify();
 let chart = c3.generate({
   bindto: '#my-chart',
-  size: { width: 1990, height: 995 }, // グラフ描画領域のサイズ
+  size: { width: 1990, height: 895 }, // グラフ描画領域のサイズ
   data: {
     json: <?php echo $data_json ?>,
 	x: 'date',
