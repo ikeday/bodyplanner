@@ -6,6 +6,8 @@
 <link rel="stylesheet" type="text/css" href="./css/table.css" />
 <title>Body Planner Daily Table</title>
 <link rev="made" href="mailto:ikeday819@gmail.com" />
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </head>
 <body>
 <?php
@@ -22,7 +24,22 @@ $statement->closeCursor();
 $column_width = 95;
 $date_width = 170;
 
-print('<table width="' . ($num_dailydata * $column_width + $date_width) . '" height="800">');
+$tableWidth = $num_dailydata * $column_width + $date_width;
+$frameWidth = $tableWidth + 20;
+?>
+<script>
+$('#container #dataCell').width(<?php echo "'" . $tableWidth . "px'"?>);
+$('#container #dataCell #dataFrame').width(<?php echo "'" . $frameWidth . "px'"?>);
+
+// var div_container = document.getElementById('container');
+// var data_cell = div_container.getElementById('dataCell');
+//data_cell.style.width = <?php echo "'" . $tableWidth . "px'"?>;
+// var data_frame = data_cell.getElementById('dataFrame');
+//data_frame.style.width = <?php echo "'" . $frameWidth . "px'"?>;
+
+</script>
+<?php
+print('<table width="' . $tableWidth . '" height="800">');
 // print('<table>');
 // 日付
 print('<tr>');
