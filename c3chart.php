@@ -4,12 +4,18 @@
 <meta charset="utf-8">
 <title>C3.js で折れ線グラフを描画する</title>
 <link href="../c3/c3.css" rel="stylesheet"><!-- c3.css を読み込む -->
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </head>
 <body>
-<h1  style="width: 1990px;"><center><div  id="chart_header"></div></center></h1><br />
-<div id="my-container" style="width: 1990px; height: 900px; border: solid 1px red">
+<h1  style="width: 1980px;"><center><div  id="chart_header"></div></center></h1><br />
+<div id="my-container" style="width: 1980px; height: 900px; border: solid 1px red">
   <div id="my-chart"></div>
 </div>
+<script>
+$('#dataCell', window.top.document).width('2000px');
+$('#dataFrame', window.top.document).width('1990px');
+</script>
 <?php
 require_once './utilities.php';
 $num_data_entry = (int) $_GET['data_entry'];
@@ -48,7 +54,7 @@ h1_title.innerHTML = <?php echo "'". $entry_jp[$num_data_entry]."'"  ?>;
 //var c3data = JSON.stringify();
 let chart = c3.generate({
   bindto: '#my-chart',
-  size: { width: 1990, height: 895 }, // グラフ描画領域のサイズ
+  size: { width: 1980, height: 890 }, // グラフ描画領域のサイズ
   data: {
     json: <?php echo $data_json ?>,
 	x: 'date',

@@ -6,34 +6,20 @@
 <link href="../c3/c3.css" rel="stylesheet"><!-- c3.css を読み込む -->
 </head>
 <body>
-<h1  style="width: 1990px;"><center><div  id="chart_header"></div></center></h1><br />
-<div id="my-container" style="width: 1990px; height: 900px; border: solid 1px red">
+<h1  style="width: 1980px;"><center><div  id="chart_header"></div></center></h1><br />
+<div id="my-container" style="width: 1980px; height: 900px; border: solid 1px red">
   <div id="my-chart"></div>
 </div>
+<script>
+$('#dataCell', window.top.document).width('2000px');
+$('#dataFrame', window.top.document).width('1990px');
+</script>
 <?php
 require_once './utilities.php';
 $num_data_entry = (int) $_GET['data_entry'];
 
-$axes = array();   //  0: x, 1: y1, 2: y2 | 0: date 1:weight 2: BMI 3: Metabolism 4: StdMetabolism
-$y_label = array('date','weight','BMI','metabolism','stdmetabolism');    //  labes of y axes
-//  daily data | 0: date 1:weight 2: BMI 3: Metabolism 4: StdMetabolism
-$r = array(
-array("date"=>"2020-08-11","weight"=>62.3,"BMI"=>23.0,"metabolism"=>1500,"stdmetabolism"=>1354),
-array("date"=>"2020-08-12","weight"=>62.5,"BMI"=>22.9,"metabolism"=>1523,"stdmetabolism"=>1377),
-array("date"=>"2020-08-13","weight"=>62.2,"BMI"=>22.2,"metabolism"=>1511,"stdmetabolism"=>1365),
-array("date"=>"2020-08-14","weight"=>63.0,"BMI"=>22.9,"metabolism"=>1519,"stdmetabolism"=>1371),
-array("date"=>"2020-08-16","weight"=>62.8,"BMI"=>23.2,"metabolism"=>1489,"stdmetabolism"=>1356),
-array("date"=>"2020-08-20","weight"=>62.5,"BMI"=>23.6,"metabolism"=>1495,"stdmetabolism"=>1360),
-array("date"=>"2020-08-21","weight"=>62.1,"BMI"=>23.2,"metabolism"=>1513,"stdmetabolism"=>1376),
-    );
-
-//console_log($r);
-
 // 2. DB接続します
 $pdo = db_connect();
-
-$x_axe = '';
-$y_axe = '';
 
 // 2．データ登録SQL作成
 // prepare("")の中にはmysqlのSQLで入力したINSERT文を入れて修正すれば良いイメージ
@@ -43,10 +29,6 @@ $status = $stmt->execute();
 $dailydata = array();
 // loop through the returned data
 while ($r = $stmt->fetch(PDO::FETCH_ASSOC)) {
-
-    //     $x_axe = $x_axe . '"' . $r['date'] . '",';
-    $x_axe = $x_axe . '"' . $r['date'] . '",';
-    $y_axe = $y_axe . '"' . $r[$entry_sql[$num_data_entry]] . '",';
     $_right = $r[$entry_sql[$num_data_entry]];
     $_left = $r[$entry_sql[$num_data_entry + 1]];
 
@@ -57,10 +39,6 @@ while ($r = $stmt->fetch(PDO::FETCH_ASSOC)) {
     );
     array_push($dailydata, $workArr);
 }
-
-$x_axe = trim($x_axe, ",");
-$y_axe = trim($y_axe, ",");
-$y_label = $data_entry_jp[$num_data_entry];
 
 $data_json = json_encode($dailydata);
 //console_log($data_json);
@@ -74,7 +52,7 @@ h1_title.innerHTML = <?php echo "'". $data_entry_jp[$num_data_entry]."'"  ?>;
 //var c3data = JSON.stringify();
 let chart = c3.generate({
   bindto: '#my-chart',
-  size: { width: 1990, height: 895 }, // グラフ描画領域のサイズ
+  size: { width: 1980, height: 890 }, // グラフ描画領域のサイズ
   data: {
     json: <?php echo $data_json ?>,
 	x: 'date',

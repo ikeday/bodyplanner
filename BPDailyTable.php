@@ -28,18 +28,8 @@ $tableWidth = $num_dailydata * $column_width + $date_width;
 $frameWidth = $tableWidth + 20;
 ?>
 <script>
-$(this).parents('#dataCell').width(<?php echo "'" . $tableWidth . "px'"?>);
-$(this).parents('#dataFrame').width(<?php echo "'" . $frameWidth . "px'"?>);
-
-//$('#container #dataCell').width(<?php echo "'" . $tableWidth . "px'"?>);
-//$('#container #dataCell #dataFrame').width(<?php echo "'" . $frameWidth . "px'"?>);
-
-// var div_container = document.getElementById('container');
-// var data_cell = div_container.getElementById('dataCell');
-//data_cell.style.width = <?php echo "'" . $tableWidth . "px'"?>;
-// var data_frame = data_cell.getElementById('dataFrame');
-//data_frame.style.width = <?php echo "'" . $frameWidth . "px'"?>;
-
+$('#dataCell', window.top.document).width(<?php echo "'" . $tableWidth . "px'"?>);
+$('#dataFrame', window.top.document).width(<?php echo "'" . $frameWidth . "px'"?>);
 </script>
 <?php
 print('<table width="' . $tableWidth . '" height="800">');
