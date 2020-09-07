@@ -6,7 +6,7 @@
 <link href="../c3/c3.css" rel="stylesheet"><!-- c3.css を読み込む -->
 </head>
 <body>
-<h1  style="width: 1980px;"><center><div  id="chart_header"></div></center></h1><br />
+<h2  style="width: 1980px; height: 30px"><center><div  id="chart_header"></div></center></h2>
 <div id="my-container" style="width: 1980px; height: 900px; border: solid 1px red">
   <div id="my-chart"></div>
 </div>
