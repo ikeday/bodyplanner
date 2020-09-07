@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=750">
+<script src="../jsQR-master/dist/jsQR.js"></script>
+
+<title>[HTML5] QRCode Reader</title>
+<style>
+/* 全体のレイアウト調整 */
+html{
+	width: 750px;
+	height: 1100px;
+}
+#contents {
+	display: grid;
+	grid-template-rows: 750px 100px;
+	grid-template-columns: 1fr;
+	column-gap: 2px;
+	row-gap: 2px;
+	width: 750px;
+	height: 1100px;
+}
+
+#camera, #picture, #resultBtn {
+	border: 1px solid gray;
+	justify-content: center;
+	margin: 5px;
+}
+
+#camera {
+	grid-row: 1/2;
+	grid-column: 1/2;
+}
+
+/* リーダー部分 */
+#picture {
+	display: none;
+}
+
+#resultBtn {
+	width: 700px;
+	height: 100px;
+}
+
+#dateBtn {
+	width: 650px;
+	height: 60px;
+	color: gray;
+	position: relative;
+	top: 20px;
+	left: 25px
+}
+
+#btnText {
+    font-size: 28px;
+}
+</style>
+</head>
+<body>
+	<section id="contents">
+		<!-- Camera映像 -->
+		<video id="camera" playsinline autoplay width="700" height="700" muted></video>
+
+		<!-- Processing -->
+		<canvas id="picture" width="700" height="700"></canvas>
+
+		<!-- reader結果 -->
+		<div id="resultBtn">
+			<button type="button" id="dateBtn" value="TestBtn">
+				<div id="btnText">Change Front/Rear Camera</div>
+			</button>
+		</div>
+
+	</section>
+
+	<script>
+//---------------------------------------------
+//Global変数
+//---------------------------------------------
+//Camera Dfault設定
+var CONSTRAINTS = {
+	audio: false,
+	video: {
+		width: 700,
+		height: 700,
+		facingMode: null  // どのカメラを利用するか
+
+		// facingModeには最終的に以下のいずれかの値を入れる
+		//   facingMode: "user"                    // フロントカメラを利用する
+		//   facingMode: { exact: "environment" }  // リアカメラを利用する
+	}
+};
+
+//Current Stream
+var curSTREAM = null;
+
+const video  = $("#camera");     // === document.querySelector("#camera");
+const canvas = $("#picture");    // === document.querySelector("#picture");
+const ctx = canvas.getContext("2d");
+
+window.onload = () => {
+	let useFront = true;	//	フロントカメラ使用
+
+	//	ボタンリスナーセット
+	var btn = document.getElementById("dateBtn");
+ 	btn.addEventListener("click", function(){
+		syncCamera(video, useFront);
+		useFront = !useFront;
+	}, false);
+
+	// 縦横の解像度を調整
+	adjustCameraSize(video, 300, 300);
+
+	// カメラと同期開始
+	syncCamera(video, useFront);
+	useFront = !useFront;         // boolean値を反転
+
+  /**
+   * カメラを<video>と同期
+   */
+//    navigator.mediaDevices.getUserMedia(constraints)
+//   .then( (stream) => {
+//       video.srcObject = stream;
+//       video.onloadedmetadata = (e) => {
+//           video.play();
+
+//       // QRコードのチェック開始
+//         checkPicture();
+//         };
+//   })
+// .catch( (err) => {
+//       console.log(err.name + ": " + err.message);
+//       });
+};
+
+/**
+ * 解像度に合わせて<video>サイズを調整する
+ *
+ * @param {object}  video
+ * @param {integer} longside   長辺のピクセル数
+ * @param {integer} shortside  短辺のピクセル数
+ **/
+function adjustCameraSize(video, longside, shortside){
+  if( window.innerWidth < window.innerHeight ){
+    // getUserMediaに食わせる値
+    CONSTRAINTS.video.width  = shortside;
+    CONSTRAINTS.video.height = longside;
+    // videoタグのサイズ
+    video.style.width  = shortside;
+    video.style.height = longside;
+  }
+}
+
+/**
+ * カメラを<video>と同期
+ *
+ * @param {object} video
+ * @param {boolean} [is_front=true]
+ */
+function syncCamera(video, is_front=true){
+  // Front/Rear カメラの設定
+  CONSTRAINTS.video.facingMode = (is_front)?  "user":{ exact: "environment" };
+
+	//既に接続していたら停止
+  if( curSTREAM !== null ){
+    curSTREAM.getVideoTracks().forEach( (camera) => {
+      camera.stop();
+    });
+  }
+
+  // カメラと接続する
+  navigator.mediaDevices.getUserMedia(CONSTRAINTS)
+    .then( (stream) => {
+      curSTREAM = stream;   // 前後の切り替え用に保持
+
+      // <video>とStremaを接続
+      video.srcObject = stream;
+      video.onloadedmetadata = (e) => {
+        video.play();
+		// QRコードのチェック開始
+		checkPicture();
+      };
+    })
+    .catch( (err) => {
+      console.log(`${err.name}: ${err.message}`);
+      //alert("カメラとの接続時にエラーが発生しました");
+    });
+}
+
+/**
+ * QRコードの読み取り
+ */
+function checkPicture(){
+  // Camera映像をCanvasに複写
+  ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+  // QRコードの読み取り
+  const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+  const code = jsQR(imageData.data, canvas.width, canvas.height);
+
+  //----------------------
+  // With a Camera
+  //----------------------
+  if( code ){
+	var arr = ["", ""];
+    // resultを表示
+	sqlquery=getQRResult(code.data, arr);  // 文字列
+	drawLine(ctx, code.location);       // 見つかった箇所に線を引く
+
+    // video と canvas を入れ替え
+    canvas.style.display = 'block';
+    video.style.display = 'none';
+    video.pause();
+    //console.log("date: " + arr);
+
+    createDateBtn(arr);
+  }
+  //----------------------
+  // 存在しない場合
+  //----------------------
+  else{
+    // 0.3secにもう一度チェックする
+    setTimeout( () => {
+      checkPicture();
+    }, 300);
+  }
+}
+
+
+/**
+ * 発見されたQRコードに線を引く
+ *
+ * @param {Object} ctx
+ * @param {Object} pos
+ * @param {Object} options
+ * @return {void}
+ */
+function drawLine(ctx, pos, options={color:"blue", size:5}){
+  // 線のスタイル設定
+  ctx.strokeStyle = options.color;
+  ctx.lineWidth   = options.size;
+
+  // 線を描く
+  ctx.beginPath();
+  ctx.moveTo(pos.topLeftCorner.x, pos.topLeftCorner.y);         // 左上からスタート
+  ctx.lineTo(pos.topRightCorner.x, pos.topRightCorner.y);       // 右上
+  ctx.lineTo(pos.bottomRightCorner.x, pos.bottomRightCorner.y); // 右下
+  ctx.lineTo(pos.bottomLeftCorner.x, pos.bottomLeftCorner.y);   // 左下
+  ctx.lineTo(pos.topLeftCorner.x, pos.topLeftCorner.y);         // 左上に戻る
+  ctx.stroke();
+}
+
+/**
+ * QRコードの読み取り結果をボタンに表示する
+ *
+ * @param {array} data sql, date
+ * @return {void}
+*/
+function createDateBtn(data){
+	var btn = document.getElementById("dateBtn");
+	var btnText = document.getElementById("btnText");
+
+	//btn.removeEventListener("click", close_camera(), false);
+	btn.addEventListener("click", function(){
+		sendDataToPHP(data)
+	}, {once: true});
+
+	btn.disabled = false;
+	btnText.innerHTML = data[1] + "<br />Record to DB";
+	//btn.onclick = sendDataToPHP(data[0]);
+	//btn.onclick = testOnclick(data[0]);
+// 	btn.addEventListener("click", function(){
+// 		sendDataToPHP(data[0])
+// 	},false);
+}
+
+/**
+ * QRコードの読み取り結果を表示する
+ *
+ * @param {array} data
+ * @param {array} arr
+ * @return {String} sqlquery
+ */
+function getQRResult(data, arr){
+//	  $(id).innerHTML = escapeHTML(data);
+	  return(camera2sql(data, arr));
+}
+
+/**
+ * jQuery style wrapper
+ *
+ * @param {string} selector
+ * @return {Object}
+ */
+ function $(selector){
+  return( document.querySelector(selector) );
+}
+
+/**
+ * HTML表示用に文字列をエスケープする
+ *
+ * @param {string} str
+ * @return {string}
+ */
+function escapeHTML(str){
+  let result = "";
+  result = str.replace("&", "&amp;");
+  result = str.replace("'", "&#x27;");
+  result = str.replace("`", "&#x60;");
+  result = str.replace('"', "&quot;");
+  result = str.replace("<", "&lt;");
+  result = str.replace(">", "&gt;");
+  result = str.replace(/\n/, "<br>");
+
+  return(result);
+}
+
+
+/**
+  * 読み込んだ文字列をsql queryに変換する
+  *
+  * @param {string} baseString
+  * @param {arr1} return array
+  * @return {string}
+*/
+function camera2sql(baseString, arr1){
+	  var work;
+	  var work0;
+	  var arr;
+	  var sql;
+
+	  sql = 'insert into dailydata values ("';
+
+	  arr = baseString.split('&');
+
+	  var i;
+	  //   dateを作る
+          work0 = arr[31].split("=");   //      年
+          work = work0[1] + '-';
+          work0 = arr[32].split("=");   //      月
+          work0[1] = ( '00' + work0[1] ).slice( -2 );
+          work = work + work0[1] + '-';
+          work0 = arr[33].split("=");   //      日
+          work0[1] = ( '00' + work0[1] ).slice( -2 );
+          arr1[1] = work + work0[1];
+          work = work + work0[1] + '","';
+
+          sql = sql + work;
+
+	  for(i = 1 ; i <  19 ; i++){
+	          var work;
+	          work = arr[i].split('=');
+	          sql = sql + work[1] + '","';
+	  }
+	  sql = sql.slice(0,-2);
+	  sql = sql + ")";
+
+	  arr1[0] = sql;
+	  //console.log("arr in camera2sql: " + arr1);
+
+	  return(sql);
+}
+/**
+ *
+ */
+ // send sql data to writeDB.php in order to update SQL DB
+ //	data: [0] sql, [1] date
+function sendDataToPHP(data) {
+// 	if (typeof jQuery == 'undefined') {
+// 	      console.log('jQueryがない！');
+// 	} else {
+// 	      console.log('jQueryがある');
+// 	}
+
+	$.ajax({
+        type : "POST",
+        url : "./writeDB.php",
+        async : true,
+        dataType : "json",
+        data : {
+            sqlquery : data[0],
+        }
+    }).done(function(jsonData) {
+        console.log('writeDB successed' + jsonData);
+        alert(data[1] + ": Read data has been recorded.")
+        btn_set("Close the Camera.")
+    }).fail(function(jqXHR, status, errorThrown) {
+    	console.log('writeDB error: ' + errorThrown);
+        alert('ajax error: ' + errorThrown)
+    	
+    });
+    return false;
+}
+
+var close_camera = function(){
+    location.href = "./nonCamera.html";
+}
+
+function btn_set(msg){
+	var btn = document.getElementById("dateBtn");
+	var btnText = document.getElementById("btnText");
+
+	btn.disabled = false;
+	btnText.innerHTML = msg;
+	//btn.removeEventListener("click", close_camera, false);
+	btn.removeEventListener("click", sendDataToPHP, false);
+	btn.addEventListener("click", function(){
+		close_camera();
+	},false);
+	//btn.onclick = function(){
+	//	close_camera
+	//};
+}
+function testOnclick(data){
+	console.log('jQuery= '+ $)
+    $('#btnText').html('Entered sendDataToPHP' + data);
+
+	$.ajax({
+        type : "POST",
+        url : "./writeDB.php",
+        async : true,
+        dataType : "json",
+        data : {
+            sqlquery : data,
+        }
+    }).done(function(jsonData) {
+        console.log(jsonData);
+    }).fail(function(jqXHR, status, errorThrown) {
+    	console.log('writeDB error: ' + errorThrown);
+    });
+    return false;
+
+}
+
+</script>
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+</body>
+</html>
