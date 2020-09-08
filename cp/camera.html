@@ -379,13 +379,13 @@ function sendDataToPHP(data) {
     }).fail(function(jqXHR, status, errorThrown) {
     	console.log('writeDB error: ' + errorThrown);
         alert('ajax error: ' + errorThrown)
-    	
+
     });
     return false;
 }
 
 var close_camera = function(){
-    location.href = "./nonCamera.html";
+    location.href = "./index.html";
 }
 
 function btn_set(msg){
