@@ -106,23 +106,6 @@ window.onload = () => {
 	// カメラと同期開始
 	syncCamera(video, useFront);
 	useFront = !useFront;         // boolean値を反転
-
-  /**
-   * カメラを<video>と同期
-   */
-//    navigator.mediaDevices.getUserMedia(constraints)
-//   .then( (stream) => {
-//       video.srcObject = stream;
-//       video.onloadedmetadata = (e) => {
-//           video.play();
-
-//       // QRコードのチェック開始
-//         checkPicture();
-//         };
-//   })
-// .catch( (err) => {
-//       console.log(err.name + ": " + err.message);
-//       });
 };
 
 /**
@@ -203,7 +186,6 @@ function checkPicture(){
     canvas.style.display = 'block';
     video.style.display = 'none';
     video.pause();
-    //console.log("date: " + arr);
 
     createDateBtn(arr);
   }
@@ -271,7 +253,6 @@ function createDateBtn(data){
  * @return {String} sqlquery
  */
 function getQRResult(data, arr){
-//	  $(id).innerHTML = escapeHTML(data);
 	  return(camera2sql(data, arr));
 }
 
@@ -345,22 +326,13 @@ function camera2sql(baseString, arr1){
 	  sql = sql + ")";
 
 	  arr1[0] = sql;
-	  //console.log("arr in camera2sql: " + arr1);
 
 	  return(sql);
 }
 /**
- *
+ * sending Body Planner data to writeDB.php in order to store it
  */
- // send sql data to writeDB.php in order to update SQL DB
- //	data: [0] sql, [1] date
 function sendDataToPHP(data) {
-// 	if (typeof jQuery == 'undefined') {
-// 	      console.log('jQueryがない！');
-// 	} else {
-// 	      console.log('jQueryがある');
-// 	}
-
 	$.ajax({
         type : "POST",
         url : "./writeDB.php",
@@ -370,7 +342,7 @@ function sendDataToPHP(data) {
             sqlquery : data[0],
         }
     }).done(function(jsonData) {
-        console.log('writeDB successed' + jsonData);
+        console.log('writeDB successed: ' + jsonData);
         alert(data[1] + ": Read data has been recorded.")
         btn_set("Close the Camera.")
     }).fail(function(jqXHR, status, errorThrown) {
@@ -392,14 +364,9 @@ function btn_set(msg){
 
 	btn.disabled = false;
 	btnText.innerHTML = msg;
-	//btn.removeEventListener("click", close_camera, false);
-	btn.removeEventListener("click", sendDataToPHP, false);
 	btn.addEventListener("click", function(){
 		close_camera();
 	},false);
-	//btn.onclick = function(){
-	//	close_camera
-	//};
 }
 
 </script>
