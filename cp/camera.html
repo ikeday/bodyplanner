@@ -14,7 +14,7 @@ html{
 }
 #contents {
 	display: grid;
-	grid-template-rows: 750px 100px;
+	grid-template-rows: 750px 300px;
 	grid-template-columns: 1fr;
 	column-gap: 2px;
 	row-gap: 2px;
@@ -40,12 +40,12 @@ html{
 
 #resultBtn {
 	width: 700px;
-	height: 100px;
+	height: 250px;
 }
 
 #dateBtn {
 	width: 650px;
-	height: 60px;
+	height: 200px;
 	color: gray;
 	position: relative;
 	top: 20px;
@@ -110,7 +110,7 @@ window.onload = () => {
 	}, false);
 
 	// 縦横の解像度を調整
-	adjustCameraSize(video, 300, 300);
+	adjustCameraSize(video, 700, 700);
 
 	// カメラと同期開始
 	syncCamera(video, useFront);
@@ -364,12 +364,6 @@ function camera2sql(baseString, arr1){
  // send sql data to writeDB.php in order to update SQL DB
  //	data: [0] sql, [1] date
 function sendDataToPHP(data) {
-// 	if (typeof jQuery == 'undefined') {
-// 	      console.log('jQueryがない！');
-// 	} else {
-// 	      console.log('jQueryがある');
-// 	}
-
 	$.ajax({
         type : "POST",
         url : "./writeDB.php",
@@ -400,8 +394,6 @@ function btn_set(msg){
 
 	btn.disabled = false;
 	btnText.innerHTML = msg;
-	//btn.removeEventListener("click", close_camera, false);
-	btn.removeEventListener("click", sendDataToPHP, false);
 	btn.addEventListener("click", function(){
 		close_camera();
 	},false);
