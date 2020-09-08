@@ -251,19 +251,16 @@ function drawLine(ctx, pos, options={color:"blue", size:5}){
 function createDateBtn(data){
 	var btn = document.getElementById("dateBtn");
 	var btnText = document.getElementById("btnText");
-
 	//btn.removeEventListener("click", close_camera(), false);
-	btn.addEventListener("click", function(){
-		sendDataToPHP(data)
-	}, {once: true});
+	btn.addEventListener("click", (function(data){
+		return function s(){
+			sendDataToPHP(data);
+			btn.removeEventListener('click', s, false);
+		}
+	})(data), false);
 
 	btn.disabled = false;
 	btnText.innerHTML = data[1] + "<br />Record to DB";
-	//btn.onclick = sendDataToPHP(data[0]);
-	//btn.onclick = testOnclick(data[0]);
-// 	btn.addEventListener("click", function(){
-// 		sendDataToPHP(data[0])
-// 	},false);
 }
 
 /**
@@ -381,7 +378,8 @@ function sendDataToPHP(data) {
         alert('ajax error: ' + errorThrown)
     	
     });
-    return false;
+
+	return false;
 }
 
 var close_camera = function(){
@@ -402,26 +400,6 @@ function btn_set(msg){
 	//btn.onclick = function(){
 	//	close_camera
 	//};
-}
-function testOnclick(data){
-	console.log('jQuery= '+ $)
-    $('#btnText').html('Entered sendDataToPHP' + data);
-
-	$.ajax({
-        type : "POST",
-        url : "./writeDB.php",
-        async : true,
-        dataType : "json",
-        data : {
-            sqlquery : data,
-        }
-    }).done(function(jsonData) {
-        console.log(jsonData);
-    }).fail(function(jqXHR, status, errorThrown) {
-    	console.log('writeDB error: ' + errorThrown);
-    });
-    return false;
-
 }
 
 </script>
