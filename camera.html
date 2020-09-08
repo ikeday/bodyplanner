@@ -251,7 +251,7 @@ function drawLine(ctx, pos, options={color:"blue", size:5}){
 function createDateBtn(data){
 	var btn = document.getElementById("dateBtn");
 	var btnText = document.getElementById("btnText");
-	//btn.removeEventListener("click", close_camera(), false);
+
 	btn.addEventListener("click", (function(data){
 		return function s(){
 			sendDataToPHP(data);
