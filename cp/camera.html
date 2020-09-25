@@ -85,10 +85,6 @@ var CONSTRAINTS = {
 		width: 700,
 		height: 700,
 		facingMode: null  // どのカメラを利用するか
-
-		// facingModeには最終的に以下のいずれかの値を入れる
-		//   facingMode: "user"                    // フロントカメラを利用する
-		//   facingMode: { exact: "environment" }  // リアカメラを利用する
 	}
 };
 
@@ -115,23 +111,6 @@ window.onload = () => {
 	// カメラと同期開始
 	syncCamera(video, useFront);
 	useFront = !useFront;         // boolean値を反転
-
-  /**
-   * カメラを<video>と同期
-   */
-//    navigator.mediaDevices.getUserMedia(constraints)
-//   .then( (stream) => {
-//       video.srcObject = stream;
-//       video.onloadedmetadata = (e) => {
-//           video.play();
-
-//       // QRコードのチェック開始
-//         checkPicture();
-//         };
-//   })
-// .catch( (err) => {
-//       console.log(err.name + ": " + err.message);
-//       });
 };
 
 /**
@@ -193,40 +172,39 @@ function syncCamera(video, is_front=true){
  */
 function checkPicture(){
   // Camera映像をCanvasに複写
-  ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+	ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
 
   // QRコードの読み取り
-  const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-  const code = jsQR(imageData.data, canvas.width, canvas.height);
+	const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+	const code = jsQR(imageData.data, canvas.width, canvas.height);
 
   //----------------------
   // With a Camera
   //----------------------
-  if( code ){
-	var arr = ["", ""];
+	if( code ){
+		var arr = ["", ""];
     // resultを表示
-	sqlquery=getQRResult(code.data, arr);  // 文字列
-	drawLine(ctx, code.location);       // 見つかった箇所に線を引く
+		sqlquery=getQRResult(code.data, arr);  // 文字列
+		drawLine(ctx, code.location);       // 見つかった箇所に線を引く
 
     // video と canvas を入れ替え
-    canvas.style.display = 'block';
-    video.style.display = 'none';
-    video.pause();
+    	canvas.style.display = 'block';
+    	video.style.display = 'none';
+    	video.pause();
     //console.log("date: " + arr);
 
-    createDateBtn(arr);
-  }
+    	createDateBtn(arr);
+  	}
   //----------------------
   // 存在しない場合
   //----------------------
-  else{
+	else{
     // 0.3secにもう一度チェックする
-    setTimeout( () => {
-      checkPicture();
-    }, 300);
-  }
+    	setTimeout( () => {
+      		checkPicture();
+    	}, 300);
+	}
 }
-
 
 /**
  * 発見されたQRコードに線を引く
@@ -238,17 +216,17 @@ function checkPicture(){
  */
 function drawLine(ctx, pos, options={color:"blue", size:5}){
   // 線のスタイル設定
-  ctx.strokeStyle = options.color;
-  ctx.lineWidth   = options.size;
+	ctx.strokeStyle = options.color;
+	ctx.lineWidth   = options.size;
 
   // 線を描く
-  ctx.beginPath();
-  ctx.moveTo(pos.topLeftCorner.x, pos.topLeftCorner.y);         // 左上からスタート
-  ctx.lineTo(pos.topRightCorner.x, pos.topRightCorner.y);       // 右上
-  ctx.lineTo(pos.bottomRightCorner.x, pos.bottomRightCorner.y); // 右下
-  ctx.lineTo(pos.bottomLeftCorner.x, pos.bottomLeftCorner.y);   // 左下
-  ctx.lineTo(pos.topLeftCorner.x, pos.topLeftCorner.y);         // 左上に戻る
-  ctx.stroke();
+	ctx.beginPath();
+	ctx.moveTo(pos.topLeftCorner.x, pos.topLeftCorner.y);         // 左上からスタート
+	ctx.lineTo(pos.topRightCorner.x, pos.topRightCorner.y);       // 右上
+	ctx.lineTo(pos.bottomRightCorner.x, pos.bottomRightCorner.y); // 右下
+	ctx.lineTo(pos.bottomLeftCorner.x, pos.bottomLeftCorner.y);   // 左下
+	ctx.lineTo(pos.topLeftCorner.x, pos.topLeftCorner.y);         // 左上に戻る
+	ctx.stroke();
 }
 
 /**
@@ -291,7 +269,7 @@ function getQRResult(data, arr){
  * @return {Object}
  */
  function $(selector){
-  return( document.querySelector(selector) );
+	return( document.querySelector(selector) );
 }
 
 /**
@@ -301,16 +279,16 @@ function getQRResult(data, arr){
  * @return {string}
  */
 function escapeHTML(str){
-  let result = "";
-  result = str.replace("&", "&amp;");
-  result = str.replace("'", "&#x27;");
-  result = str.replace("`", "&#x60;");
-  result = str.replace('"', "&quot;");
-  result = str.replace("<", "&lt;");
-  result = str.replace(">", "&gt;");
-  result = str.replace(/\n/, "<br>");
+	let result = "";
+	result = str.replace("&", "&amp;");
+	result = str.replace("'", "&#x27;");
+	result = str.replace("`", "&#x60;");
+	result = str.replace('"', "&quot;");
+	result = str.replace("<", "&lt;");
+	result = str.replace(">", "&gt;");
+	result = str.replace(/\n/, "<br>");
 
-  return(result);
+	return(result);
 }
 
 
@@ -322,41 +300,41 @@ function escapeHTML(str){
   * @return {string}
 */
 function camera2sql(baseString, arr1){
-	  var work;
-	  var work0;
-	  var arr;
-	  var sql;
+	var work;
+	var work0;
+	var arr;
+	var sql;
 
-	  sql = 'insert into dailydata values ("';
+	sql = 'insert into dailydata values ("';
 
-	  arr = baseString.split('&');
+	arr = baseString.split('&');
 
-	  var i;
+	var i;
 	  //   dateを作る
-          work0 = arr[31].split("=");   //      年
-          work = work0[1] + '-';
-          work0 = arr[32].split("=");   //      月
-          work0[1] = ( '00' + work0[1] ).slice( -2 );
-          work = work + work0[1] + '-';
-          work0 = arr[33].split("=");   //      日
-          work0[1] = ( '00' + work0[1] ).slice( -2 );
-          arr1[1] = work + work0[1];
-          work = work + work0[1] + '","';
+    work0 = arr[31].split("=");   //      年
+    work = work0[1] + '-';
+    work0 = arr[32].split("=");   //      月
+    work0[1] = ( '00' + work0[1] ).slice( -2 );
+    work = work + work0[1] + '-';
+    work0 = arr[33].split("=");   //      日
+    work0[1] = ( '00' + work0[1] ).slice( -2 );
+    arr1[1] = work + work0[1];
+    work = work + work0[1] + '","';
 
-          sql = sql + work;
+    sql = sql + work;
 
-	  for(i = 1 ; i <  19 ; i++){
-	          var work;
-	          work = arr[i].split('=');
-	          sql = sql + work[1] + '","';
-	  }
-	  sql = sql.slice(0,-2);
-	  sql = sql + ")";
+	for(i = 1 ; i <  19 ; i++){
+		var work;
+		work = arr[i].split('=');
+		sql = sql + work[1] + '","';
+	}
+	sql = sql.slice(0,-2);
+	sql = sql + ")";
 
-	  arr1[0] = sql;
+	arr1[0] = sql;
 	  //console.log("arr in camera2sql: " + arr1);
 
-	  return(sql);
+	return(sql);
 }
 /**
  *
