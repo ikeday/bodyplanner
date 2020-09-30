@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta http-equiv="Content-Style-Type" content="text/css" />
-<link rel="stylesheet" type="text/css" href="./css/table.css" />
+<link rel="stylesheet" type="text/css" href="./css/ScrollTable.css" />
 <title>Body Planner Daily Table</title>
 <link rev="made" href="mailto:ikeday819@gmail.com" />
 <script
@@ -29,14 +29,15 @@ $frameWidth = $tableWidth + 20;
 ?>
 <script>
 $('#dataCell', window.top.document).width(<?php echo "'" . $tableWidth . "px'"?>);
-$('#dataFrame', window.top.document).width(<?php echo "'" . $frameWidth . "px'"?>);
+//$('#dataFrame', window.top.document).width(<?php echo "'" . $frameWidth . "px'"?>);
+$('#dataFrame', window.top.document).width(<?php echo "'" . 2000 . "px'"?>);
 </script>
 <?php
 print('<table width="' . $tableWidth . '" height="800">');
 // print('<table>');
 // 日付
 print('<tr>');
-print('<th width="'. $date_width .'">項目／日付</th>');
+print('<th class="fixed01" width="'. $date_width .'">項目／日付</th>');
 for ($i = 0; $i < $num_dailydata; $i ++) {
     $dateData = strtotime($BPdailydata[$i]['date']);
     print('<td align="center">' . date('m/d', $dateData) . '</td>');
@@ -45,7 +46,7 @@ print('</tr>');
 // その他
 for ($j = 0; $j < count($entry_jp); $j ++) {
     print('<tr>');
-    print('<th align="left" width=' . $column_width . '>' . $entry_jp[$j] . '</th>');
+    print('<th class="fixed01" align="left" width=' . $column_width . '>' . $entry_jp[$j] . '</th>');
 
     if(($j==8)||($j==16)||($j==17)) $fmt = "%d";
     else $fmt = "%.2f\n";

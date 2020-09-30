@@ -86,30 +86,3 @@ $entry_sql = array(
     "std_metabolism"
 );
 ?>
-<!--
-<table width="1200" border="1">
-	<tr>
-		<th>日付</th>
-		<th>体重</th>
-		<th>BMI</th>
-		<th>体脂肪率</th>
-		<th>体脂肪量</th>
-		<th>体脂肪率右腕</th>
-		<th>体脂肪率左腕</th>
-		<th>体脂肪率右足</th>
-		<th>体脂肪率左足</th>
-		<th>内臓脂肪指数</th>
-		<th>骨格筋量</th>
-		<th>骨格筋量右腕</th>
-		<th>骨格筋量左腕</th>
-		<th>骨格筋量右足</th>
-		<th>骨格筋量左足</th>
-		<th>推定骨量</th>
-		<th>水分量</th>
-		<th>基礎代謝量</th>
-		<th>基礎代謝基準量</th>
-		<th>除脂肪量四肢</th>
-		<th>SMI</th>
-	</tr>
-</table>
--->
