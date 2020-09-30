@@ -4,6 +4,9 @@
 <meta charset="utf-8">
 <title>C3.js で折れ線グラフを描画する</title>
 <link href="../c3/c3.css" rel="stylesheet"><!-- c3.css を読み込む -->
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
 </head>
 <body>
 <h2  style="width: 1980px; height: 30px"><center><div  id="chart_header"></div></center></h2>
@@ -78,8 +81,5 @@ let chart = c3.generate({
   }
 });
 </script>
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-
 </body>
 </html>
