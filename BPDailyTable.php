@@ -40,13 +40,13 @@ print('<tr>');
 print('<th class="fixed01" width="'. $date_width .'">項目／日付</th>');
 for ($i = 0; $i < $num_dailydata; $i ++) {
     $dateData = strtotime($BPdailydata[$i]['date']);
-    print('<td align="center">' . date('m/d', $dateData) . '</td>');
+    print('<td align="center" bgcolor="#fafad2">' . date('m/d', $dateData) . '</td>');
 }
 print('</tr>');
 // その他
 for ($j = 0; $j < count($entry_jp); $j ++) {
 	// assign background color
-	if ($j % 2 == 0) {
+	if ($j % 2 == 1) {
 		$bgc = '#C0C0C0';
 	} else {
 		$bgc = '#FFFFFF';
