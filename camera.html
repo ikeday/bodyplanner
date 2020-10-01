@@ -9,7 +9,7 @@
 /* 全体のレイアウト調整 */
 #contents {
 	display: grid;
-	grid-template-rows: 300px 100px;
+	grid-template-rows: 300px 50px 50px;
 	grid-template-columns: 1fr;
 	column-gap: 2px;
 	row-gap: 2px;
@@ -17,7 +17,7 @@
 	height: 400px;
 }
 
-#camera, #picture, #resultBtn {
+#camera, #picture, #resultBtn,#cxBtn {
 	border: 1px solid gray;
 	justify-content: center;
 	margin: 5px;
@@ -34,16 +34,34 @@
 }
 
 #resultBtn {
+	grid-row: 2/3;
+	grid-column: 1/2;
 	width: 300px;
-	height: 100px;
+	height: 50px;
 }
 
 #dateBtn {
 	width: 250px;
-	height: 60px;
+	height: 40px;
 	color: gray;
 	position: relative;
-	top: 20px;
+	top: 4px;
+	left: 30px
+}
+
+#cxBtn {
+	grid-row: 3/4;
+	grid-column: 1/2;
+	width: 300px;
+	height: 50px;
+}
+
+#cancelBtn {
+	width: 250px;
+	height: 40px;
+	color: gray;
+	position: relative;
+	top: 4px;
 	left: 30px
 }
 </style>
@@ -56,10 +74,17 @@
 		<!-- Processing -->
 		<canvas id="picture" width="300" height="300"></canvas>
 
-		<!-- reader結果 -->
+		<!-- data btn -->
 		<div id="resultBtn">
 			<button type="button" id="dateBtn" value="TestBtn">
 				<div id="btnText">Change Front/Rear Camera</div>
+			</button>
+		</div>
+
+		<!-- cancel -->
+		<div id="cxBtn">
+			<button type="button" id="cancelBtn" value="TestBtn" onclick="close_camera();">
+				<div id="cxbtnText">Close the Camera</div>
 			</button>
 		</div>
 
@@ -238,6 +263,7 @@ function createDateBtn(data){
 		return function s(){
 			sendDataToPHP(data);
 			btn.removeEventListener('click', s, false);
+			btn.disabled = true;
 		}
 	})(data), false);
 
@@ -344,12 +370,13 @@ function sendDataToPHP(data) {
     }).done(function(jsonData) {
         console.log('writeDB successed: ' + jsonData);
         alert(data[1] + ": Read data has been recorded.")
-        btn_set("Close the Camera.")
+        //btn_set("Close the Camera.")
     }).fail(function(jqXHR, status, errorThrown) {
     	console.log('writeDB error: ' + errorThrown);
         alert('ajax error: ' + errorThrown)
     	
     });
+    //$('#dataBtn').prop('disabled', true);
 
 	return false;
 }
