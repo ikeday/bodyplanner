@@ -29,7 +29,6 @@ $frameWidth = $tableWidth + 20;
 ?>
 <script>
 $('#dataCell', window.top.document).width(<?php echo "'" . $tableWidth . "px'"?>);
-//$('#dataFrame', window.top.document).width(<?php echo "'" . $frameWidth . "px'"?>);
 $('#dataFrame', window.top.document).width(<?php echo "'" . 2000 . "px'"?>);
 </script>
 <?php
