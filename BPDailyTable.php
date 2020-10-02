@@ -16,8 +16,10 @@ require_once './utilities.php';
 $pdo = db_connect();    //  DB(bodyplanner)へ接続
 
 // 全データの取得
-$sql = "select * from dailydata";
+//$sql = "SELECT * FROM `dailydata` order by cast(`date` as DATE) DESC";
+$sql = "SELECT * FROM `dailydata` order by `date` DESC";
 $statement = $pdo->query($sql);
+
 $BPdailydata = ($statement->fetchAll(PDO::FETCH_ASSOC)); // 全データ
 $num_dailydata = $statement->rowCount(); // データ数
 $statement->closeCursor();
