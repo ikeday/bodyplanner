@@ -48,7 +48,7 @@ print('</tr>');
 for ($j = 0; $j < count($entry_jp); $j ++) {
 	// assign background color
 	if ($j % 2 == 1) {
-		$bgc = '#C0C0C0';
+		$bgc = '#DCDCDC';
 	} else {
 		$bgc = '#FFFFFF';
 	}
