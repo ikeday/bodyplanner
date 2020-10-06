@@ -23,8 +23,9 @@ try {
 try {
     $statement = $pdo->query($sql);
 } catch (PDOException $e) {
-    $ret_msg= "Written error: ".$e->getMessage();
-    //die();
+// 	$ret_msg= "Written error: ".$e->getMessage();
+	$ret_msg= "sql: ".$sql;
+	//die();
 }
 
 

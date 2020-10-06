@@ -137,11 +137,15 @@ window.onload = () => {
 	let useFront = true;	//	フロントカメラ使用
 
 	//	ボタンリスナーセット
-	var btn = document.getElementById("dateBtn");
- 	btn.addEventListener("click", function(){
+// 	var btn = document.getElementById("dateBtn");
+//  	btn.addEventListener("click", function(){
+// 		syncCamera(video, useFront);
+// 		useFront = !useFront;
+// 	}, false);
+	$('#dateBtn').on('click', function(){
 		syncCamera(video, useFront);
 		useFront = !useFront;
-	}, false);
+	});
 
 	// 縦横の解像度を調整
 	adjustCameraSize(video, 700, 700);
@@ -274,19 +278,31 @@ function drawLine(ctx, pos, options={color:"blue", size:5}){
  * @return {void}
 */
 function createDateBtn(data){
-	var btn = document.getElementById("dateBtn");
-	var btnText = document.getElementById("btnText");
+// 	var btn = document.getElementById("dateBtn");
+// 	var btnText = document.getElementById("btnText");
 
-	btn.addEventListener("click", (function(data){
-		return function s(){
-			sendDataToPHP(data);
-			btn.removeEventListener('click', s, false);
-			btn.disabled = true;
-		}
-	})(data), false);
+// 	btn.addEventListener("click", (function(data){
+// 		return function s(){
+// 			sendDataToPHP(data);
+// 			btn.removeEventListener('click', s, false);
+// 			btn.disabled = true;
+// 		}
+// 	})(data), false);
+		console.log('sql 1st: ' + data[0]);
 
-	btn.disabled = false;
-	btnText.innerHTML = data[1] + ": Record to DB";
+	$('#dateBtn').off();
+	$(document).on('click', '#dateBtn', {arg: data}, function(event){
+		console.log('sql: ' + event.data.arg.data);
+		sendDataToPHP(data);
+// 		btn.removeEventListener('click', s, false);
+// 		btn.disabled = true;
+		$('#dateBtn').prop('disabled', false);
+	});
+
+// 	btn.disabled = false;
+// 	btnText.innerHTML = data[1] + ": Record to DB";
+	$('#dateBtn').prop('disabled', false);
+	$('#btnText').html(data[1] + ": Record to DB")
 }
 
 /**
