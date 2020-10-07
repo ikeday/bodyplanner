@@ -25,7 +25,6 @@ html{
 }
 
 #camera, #picture, #resultBtn,#cxBtn {
-	border: 1px solid gray;
 	margin: 5px;
 }
 
@@ -277,7 +276,7 @@ function drawLine(ctx, pos, options={color:"blue", size:5}){
  * @param {array} data sql, date
  * @return {void}
 */
-function createDateBtn(data){
+function createDateBtn(argData){
 // 	var btn = document.getElementById("dateBtn");
 // 	var btnText = document.getElementById("btnText");
 
@@ -288,12 +287,12 @@ function createDateBtn(data){
 // 			btn.disabled = true;
 // 		}
 // 	})(data), false);
-		console.log('sql 1st: ' + data[0]);
+		console.log('sql 1st: ' + argData[0]);
 
 	$('#dateBtn').off();
-	$(document).on('click', '#dateBtn', {arg: data}, function(event){
-		console.log('sql: ' + event.data.arg.data);
-		sendDataToPHP(data);
+	$(document).on('click', '#dateBtn', argData, function(event){
+// 		console.log('sql: ' + argData);
+		sendDataToPHP(argData);
 // 		btn.removeEventListener('click', s, false);
 // 		btn.disabled = true;
 		$('#dateBtn').prop('disabled', false);
@@ -302,7 +301,7 @@ function createDateBtn(data){
 // 	btn.disabled = false;
 // 	btnText.innerHTML = data[1] + ": Record to DB";
 	$('#dateBtn').prop('disabled', false);
-	$('#btnText').html(data[1] + ": Record to DB")
+	$('#btnText').html(argData[1] + ": Record to DB")
 }
 
 /**
@@ -397,6 +396,8 @@ function camera2sql(baseString, arr1){
  // send sql data to writeDB.php in order to update SQL DB
  //	data: [0] sql, [1] date
 function sendDataToPHP(data) {
+    console.log('sendDataToPHP: ' + data[0]);
+	 
 	$.ajax({
         type : "POST",
         url : "./writeDB.php",
@@ -433,8 +434,7 @@ function btn_set(msg){
 }
 
 </script>
-	<script
-		src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script	src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
 </body>
 </html>

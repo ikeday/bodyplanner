@@ -7,10 +7,11 @@ $pass = "skapara1925";
 $db = "bodyplanner";
 $pdomsg = 'mysql:host=' . $url . ';dbname=' . $db . ';charset=utf8';
 
-global $ret_msg;
+//global $ret_msg;
 $ret_msg = "Write data successful.";
 
 $sql = $_POST["sqlquery"];
+// $ret_msg = $sql;
 
 try {
     $pdo = new PDO($pdomsg, $user, $pass);
@@ -19,20 +20,22 @@ try {
     //die();
 }
 
-
 try {
     $statement = $pdo->query($sql);
+//     $errorCode = $statement->errorInfo();
+//     if($errorCode[0] != "00000"){
+//     	throw new PDOException($errorCode[2]);
+//     }
 } catch (PDOException $e) {
 // 	$ret_msg= "Written error: ".$e->getMessage();
-	$ret_msg= "sql: ".$sql;
+	$ret_msg= "Written error: PDOException";
 	//die();
 }
-
-
 
 // ③ヘッダーの設定
 header('Content-type:application/json; charset=utf8');
 // ④JSON形式にして返却
 echo json_encode($ret_msg);
+// echo json_encode("json check");
 
 ?>
