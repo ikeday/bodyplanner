@@ -16,13 +16,16 @@ try {
     $pdo = new PDO($pdomsg, $user, $pass);
 } catch (PDOException $e) {
     $ret_msg= "Connection error: ".$e->getMessage();
-    //die();
 }
 
 
 try {
     $statement = $pdo->query($sql);
-    //$errorCode = $statement->errorInfo();
+    $errorCode = $pdo->errorInfo();
+    if($errorCode[0] != "00000"){
+    	$ret_msg = "WriteDB error: " . $errorCode[2];
+    	throw new PDOException($errorCode[2]);
+    }
 } catch (PDOException $e) {
     $ret_msg= "Written error: ".$e->getMessage();
     //die();

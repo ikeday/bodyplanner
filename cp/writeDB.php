@@ -22,13 +22,14 @@ try {
 
 try {
     $statement = $pdo->query($sql);
-//     $errorCode = $statement->errorInfo();
-//     if($errorCode[0] != "00000"){
-//     	throw new PDOException($errorCode[2]);
-//     }
+    $errorCode = $pdo->errorInfo();
+    if($errorCode[0] != "00000"){
+    	$ret_msg = "WriteDB error: " . $errorCode[2];
+    	throw new PDOException($errorCode[2]);
+    }
 } catch (PDOException $e) {
-// 	$ret_msg= "Written error: ".$e->getMessage();
-	$ret_msg= "Written error: PDOException";
+	$ret_msg= "Written error: ".$e->getMessage();
+// 	$ret_msg= "Written error: PDOException";
 	//die();
 }
 

@@ -136,11 +136,6 @@ window.onload = () => {
 	let useFront = true;	//	フロントカメラ使用
 
 	//	ボタンリスナーセット
-// 	var btn = document.getElementById("dateBtn");
-//  	btn.addEventListener("click", function(){
-// 		syncCamera(video, useFront);
-// 		useFront = !useFront;
-// 	}, false);
 	$('#dateBtn').on('click', function(){
 		syncCamera(video, useFront);
 		useFront = !useFront;
@@ -277,17 +272,7 @@ function drawLine(ctx, pos, options={color:"blue", size:5}){
  * @return {void}
 */
 function createDateBtn(argData){
-// 	var btn = document.getElementById("dateBtn");
-// 	var btnText = document.getElementById("btnText");
-
-// 	btn.addEventListener("click", (function(data){
-// 		return function s(){
-// 			sendDataToPHP(data);
-// 			btn.removeEventListener('click', s, false);
-// 			btn.disabled = true;
-// 		}
-// 	})(data), false);
-		console.log('sql 1st: ' + argData[0]);
+//	console.log('sql 1st: ' + argData[0]);
 
 	$('#dateBtn').off();
 	$(document).on('click', '#dateBtn', argData, function(event){
@@ -408,7 +393,7 @@ function sendDataToPHP(data) {
         }
     }).done(function(jsonData) {
         console.log('writeDB successed' + jsonData);
-        alert(data[1] + ": Read data has been recorded.")
+        alert(data[1] + ": " + jsonData);
         //btn_set("Close the Camera.")
     }).fail(function(jqXHR, status, errorThrown) {
     	console.log('writeDB error: ' + errorThrown);
