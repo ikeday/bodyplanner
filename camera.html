@@ -101,10 +101,6 @@ var CONSTRAINTS = {
 		width: 300,
 		height: 300,
 		facingMode: null  // どのカメラを利用するか
-
-		// facingModeには最終的に以下のいずれかの値を入れる
-		//   facingMode: "user"                    // フロントカメラを利用する
-		//   facingMode: { exact: "environment" }  // リアカメラを利用する
 	}
 };
 
@@ -254,14 +250,14 @@ function drawLine(ctx, pos, options={color:"blue", size:5}){
  * @param {array} data sql, date
  * @return {void}
 */
-function createDateBtn(data){
+function createDateBtn(argData){
 	$('#dateBtn').off();
 	$(document).on('click', '#dateBtn', argData, function(event){
 // 		console.log('sql: ' + argData);
 		sendDataToPHP(argData);
 // 		btn.removeEventListener('click', s, false);
 // 		btn.disabled = true;
-		$('#dateBtn').prop('disabled', false);
+		$('#dateBtn').prop('disabled', true);
 	});
 
 // 	btn.disabled = false;
@@ -375,7 +371,7 @@ function sendDataToPHP(data) {
         alert('ajax error: ' + errorThrown)
     	
     });
-    //$('#dataBtn').prop('disabled', true);
+//     $('#dataBtn').prop('disabled', true);
 
 	return false;
 }
