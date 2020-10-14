@@ -383,6 +383,8 @@ function camera2sql(baseString, arr1){
  //	data: [0] sql, [1] date
 function sendDataToPHP(data) {
     console.log('sendDataToPHP: ' + data[0]);
+
+    if($('dateButton').prop('disabled')) return false;
 	 
 	$.ajax({
         type : "POST",

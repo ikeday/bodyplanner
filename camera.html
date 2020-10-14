@@ -355,6 +355,8 @@ function camera2sql(baseString, arr1){
  * sending Body Planner data to writeDB.php in order to store it
  */
 function sendDataToPHP(data) {
+    if($('dateButton').prop('disabled')) return false;
+	
 	$.ajax({
         type : "POST",
         url : "./writeDB.php",
