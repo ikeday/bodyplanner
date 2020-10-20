@@ -252,7 +252,7 @@ function drawLine(ctx, pos, options={color:"blue", size:5}){
 */
 function createDateBtn(argData){
 	$('#dateBtn').off();
-	$(document).on('click', '#dateBtn', argData, function(event){
+	$('#dateBtn').on('click', function(event){
 // 		console.log('sql: ' + argData);
 		sendDataToPHP(argData);
 // 		btn.removeEventListener('click', s, false);

@@ -275,7 +275,7 @@ function createDateBtn(argData){
 //	console.log('sql 1st: ' + argData[0]);
 
 	$('#dateBtn').off();
-	$(document).on('click', '#dateBtn', argData, function(event){
+	$('#dateBtn').on('click', function(event){
 // 		console.log('sql: ' + argData);
 		sendDataToPHP(argData);
 // 		btn.removeEventListener('click', s, false);
