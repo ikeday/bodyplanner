@@ -15,27 +15,23 @@ $sql = $_POST["sqlquery"];
 try {
     $pdo = new PDO($pdomsg, $user, $pass);
 } catch (PDOException $e) {
-    $ret_msg= "Connection error: ".$e->getMessage();
+    $ret_msg = "Connection error: " . $e->getMessage();
 }
-
 
 try {
-    $statement = $pdo->query($sql);
+    $statement = $pdo->prepare($sql);
+    $statement->execute();
     $errorCode = $pdo->errorInfo();
-    if($errorCode[0] != "00000"){
-    	$ret_msg = "WriteDB error: " . $errorCode[2];
-    	throw new PDOException($errorCode[2]);
+    if ($errorCode[0] != "00000") {
+        $ret_msg = "WriteDB error: " . $errorCode[2];
+        throw new PDOException($errorCode[2]);
     }
 } catch (PDOException $e) {
-    $ret_msg= "Written error: ".$e->getMessage();
-    //die();
+    $ret_msg = "Written error: " . $e->getMessage();
+    // die();
 }
-
-
 
 // ③ヘッダーの設定
 header('Content-type:application/json; charset=utf8');
 // ④JSON形式にして返却
 echo json_encode($ret_msg);
-
-?>

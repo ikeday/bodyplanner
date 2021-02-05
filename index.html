@@ -1,31 +1,30 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN" "http://www.w3.org/TR/html4/frameset.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ja" lang="ja">
+
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta http-equiv="Content-Style-Type" content="text/css" />
-<title>Body Planner</title>
-<link rev="made" href="mailto:ikeday819@gmail.com" />
-<link rel="stylesheet" type="text/css" href="./css/grid.css" />
-<link rel="alternate" media="only screen and (max-width: 800px)" href="https://www.ikedaynet/bodyplanner/cp/index.html" />
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script type="text/javascript" src="./js/autoheight.js"></script>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta http-equiv="Content-Style-Type" content="text/css" />
+	<title>Body Planner</title>
+	<link rev="made" href="mailto:ikeday819@gmail.com" />
+	<link rel="stylesheet" type="text/css" href="./css/grid.css" />
+	<link rel="alternate" media="only screen and (max-width: 800px)" href="https://www.ikedaynet/bodyplanner/cp/index.html" />
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script type="text/javascript" src="./js/autoheight.js"></script>
 
 </head>
+
 <body>
-<div id="container">
-	<div id="cameraCell">
-		<iframe src="./nonCamera.html" id="cameraFrame" title="camera"
-			height = "450" width = "350"></iframe>
+	<div id="container">
+		<div id="cameraCell">
+			<iframe src="./nonCamera.html" id="cameraFrame" title="camera" height="450" width="350"></iframe>
+		</div>
+		<div id="menuCell">
+			<iframe src="./menu.html" name="menu" title="menuPane" scrolling="auto" id="menuFrame" class="mFrame" height="600" width="350"></iframe>
+		</div>
+		<div id="dataCell" style="height: 1050px; width: 1500px;">
+			<iframe src="./BPDailyTable.php" name="data" title="dataPane" scrolling="auto" id="dataFrame" class="dFrame" height="1050" width="1500"></iframe>
+		</div>
 	</div>
-	<div id="menuCell">
-		<iframe src="./menu.html" name="menu" title="menuPane"
-			scrolling="auto" id= "menuFrame" class="mFrame" height="600" width="350"></iframe>
-	</div>
-	<div id="dataCell" style="height: 1050px; width: 1500px;">
-		<iframe src="./BPDailyTable.php" name="data" title="dataPane"
-			scrolling="auto" id= "dataFrame" class="dFrame" height="1050" width="1500"></iframe>
-	</div>
-</div>
 </body>
 
 </html>

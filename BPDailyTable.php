@@ -46,18 +46,21 @@ for ($i = 0; $i < $num_dailydata; $i ++) {
 print('</tr>');
 // その他
 for ($j = 0; $j < count($entry_jp); $j ++) {
-	// assign background color
-	if ($j % 2 == 1) {
-		$bgc = '#DCDCDC';
-	} else {
-		$bgc = '#FFFFFF';
-	}
-	
+    // assign background color
+    if ($j % 2 == 1) {
+        $bgc = '#DCDCDC';
+    } else {
+        $bgc = '#FFFFFF';
+    }
+
     print('<tr bgcolor="' . $bgc . '">');
     print('<th class="fixed01" align="left" width=' . $column_width . '>' . $entry_jp[$j] . '</th>');
 
-    if(($j==8)||($j==16)||($j==17)) $fmt = "%d";
-    else $fmt = "%.2f\n";
+    if (($j==8)||($j==16)||($j==17)) {
+        $fmt = "%d";
+    } else {
+        $fmt = "%.2f\n";
+    }
 
     for ($i = 0; $i < $num_dailydata; $i ++) {
         $num = sprintf($fmt, $BPdailydata[$i][$entry_sql[$j]]);
